@@ -33,7 +33,7 @@ namespace TeamCityBackup
                 var directoryInfo = new DirectoryInfo(options.BackupDirectory);
 
                 IEnumerable<FileInfo> filesToRemove = directoryInfo.GetFiles()
-                    .OrderBy(file => file.CreationTimeUtc)
+                    .OrderByDescending(file => file.CreationTimeUtc)
                     .Skip(options.MaxBackupCount - 1);
 
                 foreach (FileInfo file in filesToRemove)
