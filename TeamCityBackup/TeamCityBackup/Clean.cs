@@ -20,7 +20,7 @@ namespace TeamCityBackup
 
         public bool Run()
         {
-            if (!File.Exists(options.BackupDirectory))
+            if (!Directory.Exists(options.BackupDirectory))
             {
                 Console.Error.WriteLine("The backup directory '{0}' does not exist.", options.BackupDirectory);
                 return false;
