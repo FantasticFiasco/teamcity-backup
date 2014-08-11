@@ -38,7 +38,7 @@ namespace TeamCityBackup
 
                 foreach (FileInfo file in filesToRemove)
                 {
-                    Console.WriteLine("Deleting backup file {0}", file.Name);
+                    Console.WriteLine("Deleting old backup file '{0}'", file.Name);
                     file.Delete();
                 }
 
