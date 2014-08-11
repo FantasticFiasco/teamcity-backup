@@ -95,27 +95,32 @@ namespace TeamCityBackup
 
         [CommandLineOption(
             Name = "addtimestamp",
-            Description = "Whether file name should be prefixed with a timestamp. Default value is true.")]
+            Description = "Whether file name should be prefixed with a timestamp. Default value is true.",
+            BoolFunction = BoolFunction.Value)]
         public bool AddTimestamp { get; set; }
 
         [CommandLineOption(
             Name = "includeconfigs",
-            Description = "Whether to include configuration. Default value is true.")]
+            Description = "Whether to include configuration. Default value is true.",
+            BoolFunction = BoolFunction.Value)]
         public bool IncludeConfigs { get; set; }
 
         [CommandLineOption(
             Name = "includedatabase",
-            Description = "Whether to include database. Default value is true.")]
+            Description = "Whether to include database. Default value is true.",
+            BoolFunction = BoolFunction.Value)]
         public bool IncludeDatabase { get; set; }
 
         [CommandLineOption(
             Name = "includebuildlogs",
-            Description = "Whether to include build logs. Default value is true.")]
+            Description = "Whether to include build logs. Default value is true.",
+            BoolFunction = BoolFunction.Value)]
         public bool IncludeBuildLogs { get; set; }
 
         [CommandLineOption(
             Name = "includepersonalchanges",
-            Description = "Whether to include personal changes. Default value is true.")]
+            Description = "Whether to include personal changes. Default value is true.",
+            BoolFunction = BoolFunction.Value)]
         public bool IncludePersonalChanges { get; set; }
     }
 }
