@@ -35,9 +35,7 @@ namespace TeamCityBackup
             get { return server; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new InvalidOptionValueException("The address of the server must not be empty.");
-
+                AssertIsNotNullOrWhiteSpace(value, "The address of the server must not be empty.");
                 server = value;
             }
         }
@@ -52,9 +50,7 @@ namespace TeamCityBackup
             get { return username; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new InvalidOptionValueException("The name must not be empty.");
-
+                AssertIsNotNullOrWhiteSpace(value, "The username must not be empty.");
                 username = value;
             }
         }
@@ -69,9 +65,7 @@ namespace TeamCityBackup
             get { return password; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new InvalidOptionValueException("The password must not be empty.");
-
+                AssertIsNotNullOrWhiteSpace(value, "The password must not be empty.");
                 password = value;
             }
         }
@@ -79,23 +73,21 @@ namespace TeamCityBackup
         [CommandLineOption(
             Name = "filename",
             Aliases = "f",
-            Description = "The prefix of the file to save backup to.",
+            Description = "The prefix of the file name to save backup to.",
             MinOccurs = 1)]
         public string FileName
         {
             get { return fileName; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new InvalidOptionValueException("The file name must not be empty.");
-
+                AssertIsNotNullOrWhiteSpace(value, "The file name must not be empty.");
                 fileName = value;
             }
         }
 
         [CommandLineOption(
             Name = "addtimestamp",
-            Description = "Whether file name should be prefixed with a timestamp. Default value is true.",
+            Description = "Whether file name should be suffixed with a timestamp. Default value is true.",
             BoolFunction = BoolFunction.Value)]
         public bool AddTimestamp { get; set; }
 
@@ -122,5 +114,11 @@ namespace TeamCityBackup
             Description = "Whether to include personal changes. Default value is true.",
             BoolFunction = BoolFunction.Value)]
         public bool IncludePersonalChanges { get; set; }
+
+        private static void AssertIsNotNullOrWhiteSpace(string value, string errorMessage)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new InvalidOptionValueException(errorMessage);
+        }
     }
 }
