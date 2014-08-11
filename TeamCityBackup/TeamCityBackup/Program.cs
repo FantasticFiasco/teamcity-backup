@@ -34,7 +34,7 @@ namespace TeamCityBackup
             }
 
             // Run backup
-            return Backup(options);
+            return Backup(options) ? 0 : -1;
         }
 
         private static void PrintUsage()
@@ -47,12 +47,10 @@ namespace TeamCityBackup
             Console.WriteLine(parser.UsageInfo.GetErrorsAsString(TextWidth));
         }
 
-        private static int Backup(Options options)
+        private static bool Backup(Options options)
         {
-            var backupTask = new Backup(options).RunAsync();
-            Task.WaitAll(backupTask);
-
-            return backupTask.IsFaulted ? -1 : 0;
+            var backup = new Backup(options);
+            return backup.Run();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace TeamCityBackup
 {
@@ -16,47 +16,49 @@ namespace TeamCityBackup
             this.options = options;
         }
 
-        public async Task RunAsync()
+        public bool Run()
         {
             using (var client = new WebClient())
             {
-                client.Credentials = new NetworkCredential(options.Username, options.Password);
+                client.Credentials = Credentials;
 
                 try
                 {
-                    string response = await client.UploadStringTaskAsync(Address, Parameters);
-                    Console.WriteLine(response);
+                    string response = client.UploadString(Url, string.Empty);
+                    Console.WriteLine("Created backup with filename '{0}'", response);
+                    return true;
                 }
-                catch (Exception e)
+                catch (WebException e)
                 {
-                    Console.WriteLine(e.ToString());
+                    Console.Error.WriteLine(
+                        "Unable to initiate backup using REST URL {0}.{1}",
+                        Url,
+                        Environment.NewLine + e);
+
+                    return false;
                 }
             }
         }
 
-        private string Address
+        private string Url
         {
             get
             {
-                return string.Format(
-                    "http://{0}/httpAuth/app/rest/server/backup",
-                    options.Server);
+                return new StringBuilder()
+                    .AppendFormat("http://{0}/httpAuth/app/rest/server/backup", options.Server)
+                    .AppendFormat("?addTimestamp={0}", options.AddTimestamp)
+                    .AppendFormat("&includeConfigs={0}", options.IncludeConfigs)
+                    .AppendFormat("&includeDatabase={0}", options.IncludeDatabase)
+                    .AppendFormat("&includeBuildLogs={0}", options.IncludeBuildLogs)
+                    .AppendFormat("&includePersonalChanges={0}", options.IncludePersonalChanges)
+                    .AppendFormat("&fileName={0}", options.FileName)
+                    .ToString();
             }
         }
 
-        private string Parameters
+        private NetworkCredential Credentials
         {
-            get
-            {
-                return string.Format(
-                    "addTimestamp={0}&includeConfigs={1}&includeDatabase={2}&includeBuildLogs={3}&includePersonalChanges={4}&fileName={5}",
-                    options.AddTimestamp ? "true" : "false",
-                    options.IncludeConfigs ? "true" : "false",
-                    options.IncludeDatabase ? "true" : "false",
-                    options.IncludeBuildLogs ? "true" : "false",
-                    options.IncludePersonalChanges ? "true" : "false",
-                    options.FileName);
-            }
+            get { return new NetworkCredential(options.Username, options.Password); }
         }
     }
 }
