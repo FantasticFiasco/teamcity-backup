@@ -54,6 +54,11 @@ namespace TeamCityBackup
 
         private static bool Clean(Options options)
         {
+            if (string.IsNullOrWhiteSpace(options.BackupDirectory))
+            {
+                return true;
+            }
+
             var clean = new Clean(options);
             return clean.Run();
         }

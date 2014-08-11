@@ -26,6 +26,8 @@ namespace TeamCityBackup
                 return false;
             }
 
+            Console.WriteLine("Cleaning backup directory '{0}'", options.BackupDirectory);
+
             try
             {
                 var directoryInfo = new DirectoryInfo(options.BackupDirectory);
@@ -36,7 +38,7 @@ namespace TeamCityBackup
 
                 foreach (FileInfo file in filesToRemove)
                 {
-                    Console.WriteLine("Deleting backup {0}", file.Name);
+                    Console.WriteLine("Deleting backup file {0}", file.Name);
                     file.Delete();
                 }
 
