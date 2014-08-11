@@ -1,4 +1,5 @@
-﻿using Plossum.CommandLine;
+﻿using System;
+using Plossum.CommandLine;
 
 namespace TeamCityBackup
 {
@@ -9,9 +10,12 @@ namespace TeamCityBackup
         private string username;
         private string password;
         private string fileName;
+        private string backupDirectory;
+        private int maxBackupCount;
 
         public Options()
         {
+            MaxBackupCount = 10;
             AddTimestamp = true;
             IncludeConfigs = true;
             IncludeDatabase = true;
@@ -86,6 +90,32 @@ namespace TeamCityBackup
         }
 
         [CommandLineOption(
+            Name = "backupdir",
+            Description = "The directory where backups are stored.")]
+        public string BackupDirectory
+        {
+            get { return backupDirectory; }
+            set
+            {
+                AssertIsNotNullOrWhiteSpace(value, "The backup directory must not be empty.");
+                backupDirectory = value;
+            }
+        }
+
+        [CommandLineOption(
+            Name = "maxbackupcount",
+            Description = "The maximum number of backups stored at the backup directory. The default value is 10.")]
+        public int MaxBackupCount
+        {
+            get { return maxBackupCount; }
+            set
+            {
+                AssertNumber(value, count => count >= 1, "Maximum number of backups must be at least one.");
+                maxBackupCount = value;
+            }
+        }
+
+        [CommandLineOption(
             Name = "addtimestamp",
             Description = "Whether file name should be suffixed with a timestamp. Default value is true.",
             BoolFunction = BoolFunction.Value)]
@@ -118,6 +148,12 @@ namespace TeamCityBackup
         private static void AssertIsNotNullOrWhiteSpace(string value, string errorMessage)
         {
             if (string.IsNullOrWhiteSpace(value))
+                throw new InvalidOptionValueException(errorMessage);
+        }
+
+        private static void AssertNumber(int value, Predicate<int> validity, string errorMessage)
+        {
+            if (!validity(value))
                 throw new InvalidOptionValueException(errorMessage);
         }
     }

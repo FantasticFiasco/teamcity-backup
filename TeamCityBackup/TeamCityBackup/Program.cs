@@ -32,6 +32,12 @@ namespace TeamCityBackup
                 return -1;
             }
 
+            // Clean backup directory
+            if (!Clean(options))
+            {
+                return -1;
+            }
+
             // Run backup
             return Backup(options) ? 0 : -1;
         }
@@ -44,6 +50,12 @@ namespace TeamCityBackup
         private static void PrintError()
         {
             Console.WriteLine(parser.UsageInfo.GetErrorsAsString(TextWidth));
+        }
+
+        private static bool Clean(Options options)
+        {
+            var clean = new Clean(options);
+            return clean.Run();
         }
 
         private static bool Backup(Options options)
