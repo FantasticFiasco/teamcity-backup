@@ -91,7 +91,7 @@ namespace TeamCityBackup
 
         [CommandLineOption(
             Name = "backupdir",
-            Description = "The directory where backups are stored.")]
+            Description = "The directory where backups are stored. Specify this property if you wish to make sure that the number of backups doesn't exceed maxbackupcount.")]
         public string BackupDirectory
         {
             get { return backupDirectory; }

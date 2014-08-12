@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using Plossum.CommandLine;
 
 namespace TeamCityBackup
@@ -44,6 +46,12 @@ namespace TeamCityBackup
 
         private static void PrintUsage()
         {
+            Console.WriteLine("Usage:");
+            Console.WriteLine("   {0} /server=url /username=value /password=value /filename=file", FileNameWithoutExtension);
+            Console.WriteLine("     [/backupdir=dir] [/maxbackupcount=value] [/addtimestamp=true|false]");
+            Console.WriteLine("     [/includeconfigs=true|false] [/includedatabase=true|false]");
+            Console.WriteLine("     [/includebuildlogs=true|false] [/includepersonalchanges=true|false]");
+            Console.WriteLine();
             Console.WriteLine(parser.UsageInfo.GetOptionsAsString(TextWidth));
         }
 
@@ -67,6 +75,11 @@ namespace TeamCityBackup
         {
             var backup = new Backup(options);
             return backup.Run();
+        }
+
+        private static string FileNameWithoutExtension
+        {
+            get { return Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location); }
         }
     }
 }
