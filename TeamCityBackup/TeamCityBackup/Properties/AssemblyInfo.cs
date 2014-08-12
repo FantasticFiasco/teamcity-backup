@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TeamCity Backup")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Console application capable of creating TeamCity backups.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("FantasticFiasco")]
-[assembly: AssemblyProduct("TeamCityBackup")]
+[assembly: AssemblyProduct("TeamCity Backup")]
 [assembly: AssemblyCopyright("Copyright © FantasticFiasco 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
