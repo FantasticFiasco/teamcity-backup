@@ -32,6 +32,8 @@ namespace TeamCityBackup
             {
                 var directoryInfo = new DirectoryInfo(options.BackupDirectory);
 
+                // Removing one more backup than specified in max backup count to accommodate for
+                // the backup that will be created after clean is run
                 IEnumerable<FileInfo> filesToRemove = directoryInfo.GetFiles()
                     .OrderByDescending(file => file.CreationTimeUtc)
                     .Skip(options.MaxBackupCount - 1);
