@@ -77,7 +77,7 @@ namespace TeamCityBackup
         [CommandLineOption(
             Name = "filename",
             Aliases = "f",
-            Description = "The prefix of the file name to save backup to.",
+            Description = "The prefix of the backup file name.",
             MinOccurs = 1)]
         public string FileName
         {
@@ -117,7 +117,7 @@ namespace TeamCityBackup
 
         [CommandLineOption(
             Name = "addtimestamp",
-            Description = "Whether file name should be suffixed with a timestamp. Default value is true.",
+            Description = "Whether backup file name should be suffixed with a timestamp. Default value is true.",
             BoolFunction = BoolFunction.Value)]
         public bool AddTimestamp { get; set; }
 
